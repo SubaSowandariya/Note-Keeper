@@ -1,0 +1,220 @@
+import java.awt.*;
+import java.awt.event.*;
+public class notemaking extends Frame implements ActionListener 
+{
+Button create,date,subject; 
+Label d1,y1,m1,s1;
+TextField td1,ty1,tm1,ts1; 
+TextArea t1; 
+TextField t2,t3;
+Label d2,y2,m2,s2,display;
+TextField td2,ty2,tm2,ts2;
+String s,d,y,tx,m;
+class node
+{
+String date;
+String sub; 
+String month;
+String year;
+String text;
+node next;
+public node(String date,String sub,String month,String year,String text) 
+{ 
+this.date=date;
+this.sub=sub;
+this.month=month;
+this.year=year;
+this.text=text; 
+}
+} 
+public node head=null;
+public node tail=null;
+public void create( String date,String year,String month,String subject,String text)
+{
+String dat=date; 
+String mon=month;
+String yr=year;
+String sub=subject;
+String txt=text;
+node newnode=new node(dat,sub,mon,yr,txt);
+if(head==null)
+{
+head=newnode; 
+tail=newnode; 
+}
+else 
+{ 
+tail.next=newnode;
+tail=newnode;
+}
+}
+public void searchonsub(String sb) 
+{
+node current=head;
+int count=0;
+while(current!=null)
+{
+if(sb.equals(current.sub))
+{
+td2.setText(current.date);
+tm2.setText(current.month);
+ty2.setText(current.year); 
+t2.setText(current.text);
+count++; 
+}
+current=current.next; 
+}
+if(count==0) 
+{
+System.out.println("Notes not found");
+}
+}
+public void searchondate(String date,String month,String year)
+{
+node current=head;
+int count=0;
+String dat=date; 
+String mon=month; 
+String yr=year;
+while(current!=null) 
+{ 
+if(dat.equals(current.date))
+{
+if(mon.equals(current.month))
+{
+if(yr.equals(current.year)) 
+{
+ts2.setText(current.sub); 
+t2.setText(current.text);
+count++;
+}
+}
+}
+current=current.next;
+}
+if(count==0) 
+{
+System.out.println("Notes not found");
+}
+}
+public notemaking() 
+{ 
+super("Note Keeeper");
+Label l=new Label(" Note making "); 
+create=new Button("CREATE"); 
+create.setBounds(50,50,100,50);
+create.addActionListener(this);
+create.setBackground(Color.BLUE);
+create.setForeground(Color.WHITE);
+add(create);
+t2=new TextField(100);
+t2.setBounds(50,500,900,200);
+add(t2);
+d1=new Label(" Date:"); 
+d1.setBounds(50,100,50,50);
+add(d1); 
+m1=new Label(" Month:"); 
+m1.setBounds(150,100,50,50); 
+add(m1); 
+y1=new Label(" Year:"); 
+y1.setBounds(250,100,50,50); 
+add(y1); 
+s1=new Label(" Subject:");
+s1.setBounds(350,100,50,50);
+add(s1); 
+td1=new TextField(10); 
+td1.setBounds(100,100,50,30); 
+add(td1); 
+tm1=new TextField(20); 
+tm1.setBounds(200,100,50,30);
+add(tm1); 
+ty1=new TextField(20); 
+ty1.setBounds(300,100,50,30);
+add(ty1);
+ts1=new TextField(20);
+ts1.setBounds(400,100,100,30); 
+add(ts1);
+t1=new TextArea(900,100); 
+t1.setBounds(50,150,900,200);
+add(t1);
+display=new Label("Display"); 
+display.setBounds(50,300,50,50); 
+add(display); 
+date=new Button("DATE");
+date.setBounds(50,350,100,50); 
+date.setBackground(Color.BLUE); 
+date.setForeground(Color.WHITE);
+date.addActionListener(this);
+add(date);
+subject=new Button("SUBJECT"); 
+subject.setBounds(150,350,100,50);
+subject.setBackground(Color.BLUE); 
+subject.setForeground(Color.WHITE);
+subject.addActionListener(this);
+add(subject); 
+d2=new Label(" Date:");
+d2.setBounds(50,400,50,50); 
+add(d2);
+m2=new Label(" Month:");
+m2.setBounds(150,400,50,50);
+add(m2); 
+y2=new Label(" Year:"); 
+y2.setBounds(250,400,50,50);
+add(y2);
+s2=new Label(" Subject:"); 
+s2.setBounds(350,400,50,50); 
+add(s2); td2=new TextField(20);
+td2.setBounds(100,400,50,30);
+add(td2);
+tm2=new TextField(20); 
+tm2.setBounds(200,400,50,30);
+add(tm2);
+ty2=new TextField(20);
+ty2.setBounds(300,400,50,30); 
+add(ty2); 
+ts2=new TextField(20);
+ts2.setBounds(400,400,100,30); 
+add(ts2); 
+this.addWindowListener(new WindowAdapter());
+{ 
+public void windowClosing(WindowEvent we) 
+{
+System.exit(0); 
+} 
+}
+ t3=new TextField(00); 
+ t3.setBounds(900,900,00,00);
+ add(t3); 
+ } 
+ public static void main(String args[])
+ {
+ notemaking d=new notemaking();
+ d.setSize(1000,1000);
+ d.setVisible(true);
+ } 
+ public void actionPerformed(ActionEvent e)
+ { 
+ Object o=e.getSource(); 
+ if(o==create)
+ { 
+ d=td1.getText();
+ m=tm1.getText();
+ y=ty1.getText();
+ s=ts1.getText();
+ tx=t1.getText();
+ create(d,y,m,s,tx);
+ }
+ if(o==date) 
+ {
+ d=td2.getText();
+ m=tm2.getText();
+ y=ty2.getText();
+ searchondate(d,m,y);
+}
+if(o==subject)
+{
+s=ts2.getText(); 
+searchonsub(s);
+}
+}
+}
